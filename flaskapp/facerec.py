@@ -1,9 +1,8 @@
 import face_recognition     # main algorithm
 import pickle               # deserialize data
 import cv2                  # opencv, image processment
-import faiss
-import numpy as np
-import pandas as pd
+import faiss                # facebook ai search similarity search
+import numpy as np          # transform image data to img
 
 def detect_faces(img):
     data = pickle.loads(open("encodings.pickle", "rb").read())
@@ -11,7 +10,6 @@ def detect_faces(img):
     # Convert the image file to a NumPy array
     img_array = np.frombuffer(img, np.uint8)
 
-    # Decode the image array to an OpenCV BGR image
     image = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
     rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     boxes = face_recognition.face_locations(rgb, model="hog")
@@ -80,4 +78,4 @@ def knn(img, k):
         images.append("../" + r_data['paths'][i])
         f_names.append(r_data['names'][i].replace("_", " "))
 
-    return images, f_names, D[0]
+    return images[1:], f_names[1:], D[0], images[0]

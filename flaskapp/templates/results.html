@@ -1,23 +1,42 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/results.css') }}">
-    </head>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/results.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <p class="logo">BROWSER</p>
+        <p class="reminder">Please note that the concept of similarity is inversely related to distance.</p>
+    </nav>
 
-    <body>
-        <h2>Search</h2>
-        <h3>Took {{time}}s</h3>
-        <div class="original-image-container">
-            <img src="data:image/jpeg;base64,{{ original_image }}" alt="Original Image" class="original_image">
-        </div>        
-
-        <div class="image-gallery">
-            <h1>Results</h1>
-            <h4>Best result = Top image | Worst result = Bottom image</h4>
-            {% for image, f_name, score in data %}
-                <p>{{ f_name }}, distance: {{ score }}</p>
-                <img src="/dataset/{{ image }}" alt="Image">
-            {% endfor %}
+    <div class="results-container">
+        <div class="uploaded-image-container">
+            <h4 class="uploaded-image-title">Uploaded Image</h4>
+            <img src="data:image/jpeg;base64,{{ original_image }}" alt="Uploaded Image" class="uploaded-image">
         </div>
-    </body>
+
+        <div class="best-result-container">
+            <h4 class="best-result-title">Best Result</h4>
+            <img src="{{ url_for('static', filename=best_result_image) }}" alt="Best Result" class="best-result-image">
+        </div>
+
+        <button class="try-again-button" style="outline: none;">Try Again</button>
+    </div>
+
+    <div class="other-matches">
+        <h3 class="other-matches-title">Other Matches</h3>
+    </div>
+
+    <div class="knn-image-gallery">
+        {% for image, f_name, score in data %}
+            <div class="knn-image-container">
+                <img src="{{ url_for('static', filename=image) }}" alt="KNN Image" class="knn-image">
+                <div class="knn-details">
+                    <h4>{{ f_name }}</h4>
+                    <p>Distance: {{ score }}</p>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</body>
 </html>

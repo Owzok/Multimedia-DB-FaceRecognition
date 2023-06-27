@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, send_from_directory
 from flaskapp import app
 from flaskapp.facerec import detect_faces, knn
-import os
-import base64
-import time
+import os                                       # send images that aren't in static       
+import base64                                   # encode uploaded images
+import time                                     # query time
 
 @app.route('/')
 def hello_world():
@@ -33,6 +33,6 @@ def upload_pic():
             numeric_value = 5
 
         start_time = time.time()
-        results, names, similarity_scores = knn(img, numeric_value)
+        results, names, similarity_scores, best_result = knn(img, numeric_value)
         zipped_data = zip(results, names, similarity_scores)
-        return render_template('results.html', data=zipped_data, original_image=img_base64, time=(time.time()-start_time))
+        return render_template('results.html', data=zipped_data, best_result_image=best_result, original_image=img_base64, time=(time.time()-start_time))
