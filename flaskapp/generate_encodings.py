@@ -27,6 +27,7 @@ def generate_encodings():
 
     known_encodings = []
     known_names = []
+    known_images = []
 
     for (i, imagePath) in enumerate(imagePaths):
         print("[INFO] processing image {}/{}".format(i + 1, len(imagePaths)))
@@ -43,9 +44,10 @@ def generate_encodings():
         for encoding in encodings:
             known_encodings.append(encoding)
             known_names.append(name)
+            known_images.append(imagePath)
 
     print("[INFO] serializing encodings...")
-    data = {"encodings": known_encodings, "names": known_names, "paths": imagePaths}
+    data = {"encodings": known_encodings, "names": known_names, "paths": known_images}
     # data = {'encodings': [array(128-d face vector], 'names': ['pedro', 'joe', 'joe', ..., 'pedro'])]}
 
     print(len(data['encodings']))

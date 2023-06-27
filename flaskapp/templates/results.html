@@ -6,6 +6,7 @@
 
     <body>
         <h2>Search</h2>
+        <h3>Took {{time}}s</h3>
         <div class="original-image-container">
             <img src="data:image/jpeg;base64,{{ original_image }}" alt="Original Image" class="original_image">
         </div>        
@@ -13,7 +14,8 @@
         <div class="image-gallery">
             <h1>Results</h1>
             <h4>Best result = Top image | Worst result = Bottom image</h4>
-            {% for image in images %}
+            {% for image, f_name, score in data %}
+                <p>{{ f_name }}, distance: {{ score }}</p>
                 <img src="/dataset/{{ image }}" alt="Image">
             {% endfor %}
         </div>

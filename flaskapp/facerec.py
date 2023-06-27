@@ -66,15 +66,18 @@ def knn(img, k):
         d = np.array([encoding])
 
     D, I = index.search(d, k) 
-    #print(I)
-    # I contains the indexes of the knn
-    #n_data = pd.DataFrame(r_data['paths'])
-    #print(n_data)
+
+    print(D)
 
     images = []
+    f_names = []
 
+    input_encoding = encodings[0]
+    input_encoding = input_encoding.reshape(1, -1)  # Reshape to match dimensions for cosine similarity
+
+    m_index = 0
     for i in I[0]:
-        images.append("../"+r_data['paths'][i])
+        images.append("../" + r_data['paths'][i])
+        f_names.append(r_data['names'][i].replace("_", " "))
 
-    print(images)
-    return images
+    return images, f_names, D[0]

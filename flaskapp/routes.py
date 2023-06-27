@@ -3,6 +3,7 @@ from flaskapp import app
 from flaskapp.facerec import detect_faces, knn
 import os
 import base64
+import time
 
 @app.route('/')
 def hello_world():
@@ -31,5 +32,7 @@ def upload_pic():
         except ValueError:
             numeric_value = 5
 
-        results = knn(img, numeric_value)
-        return render_template('results.html', images=results, original_image=img_base64)
+        start_time = time.time()
+        results, names, similarity_scores = knn(img, numeric_value)
+        zipped_data = zip(results, names, similarity_scores)
+        return render_template('results.html', data=zipped_data, original_image=img_base64, time=(time.time()-start_time))
