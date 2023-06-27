@@ -28,7 +28,7 @@ def detect_faces(img):
                 counts[name] = counts.get(name, 0) + 1
             
             name = max(counts, key=counts.get)
-            print("Found face: {}".format(name))
+            #print("Found face: {}".format(name))
         names.append(name)
 
         for ((top, right, bottom, left), name) in zip(boxes, names):
@@ -65,7 +65,7 @@ def knn(img, k):
 
     D, I = index.search(d, k) 
 
-    print(D)
+    #print(D)
 
     images = []
     f_names = []

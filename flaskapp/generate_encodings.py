@@ -30,7 +30,8 @@ def generate_encodings():
     known_images = []
 
     for (i, imagePath) in enumerate(imagePaths):
-        print("[INFO] processing image {}/{}".format(i + 1, len(imagePaths)))
+        if (i+1) % 10 == 0:
+            print("[INFO] processing image {}/{}".format(i + 1, len(imagePaths)))
         # [INFO] processing image 3/7
         name = imagePath.split(os.path.sep)[-2]
         image = cv2.imread(imagePath)
