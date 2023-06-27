@@ -10,3 +10,12 @@ Project structure
         - pedro_1.jpeg
         - ...jpeg
         - pedro_n.jpeg
+- examples
+    - test.jpeg
+    - ...
+- code
+    - detect_faces.py
+    - generate_encodings.py
+    - back.py
+    - front.py
+    - main.py

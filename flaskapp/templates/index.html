@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <p class="browser-text">Browser</p>
+    <div class="container">
+        <div class="left">
+            <h1>db2 ~ project 3</h1>
+            <h2 class="name">Browser.</h2>
+            <h3>Face Recognition + Top-K</h3>
+            <p>Search Engine for our face recognition back-end, which gets<br>the k most similar faces in our DB.</p>
+            <form action="/upload" method="POST" enctype="multipart/form-data"> 
+                <label for="file-input" class="hire-button">UPLOAD PIC</label>
+                <div class="numeric-input-container">
+                    <input type="number" id="numeric-input" name="numeric" placeholder="Top-K" min="1">
+                </div>            
+                <input type="file" id="file-input" name="file" style="display: none;">
+                <input type="submit" value="Upload" style="display: none;">
+            </form>
+        </div>
+        <div class="right">
+            <object data="{{ url_for('static', filename='image.svg') }}" type="image/svg+xml" class="cover-image">
+                <img src="{{ url_for('static', filename='image.png') }}" alt="Cover Image" class="cover-image">
+            </object>
+        </div>
+    </div>
+    <script>
+        document.getElementById("file-input").addEventListener("change", function() {
+            document.querySelector("input[type='submit']").click();
+        });
+    </script>
+</body>
+</html>

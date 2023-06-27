@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/results.css') }}">
+    </head>
+
+    <body>
+        <h2>Search</h2>
+        <div class="original-image-container">
+            <img src="data:image/jpeg;base64,{{ original_image }}" alt="Original Image" class="original_image">
+        </div>        
+
+        <div class="image-gallery">
+            <h1>Results</h1>
+            <h4>Best result = Top image | Worst result = Bottom image</h4>
+            {% for image in images %}
+                <img src="/dataset/{{ image }}" alt="Image">
+            {% endfor %}
+        </div>
+    </body>
+</html>
