@@ -125,3 +125,7 @@ body {
     cursor: pointer;
     border: none;
 }
+
+.try-again-button:hover{
+    background-color: #c3c3c3;
+}

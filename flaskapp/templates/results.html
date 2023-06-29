@@ -19,8 +19,9 @@
             <h4 class="best-result-title">Best Result</h4>
             <img src="{{ url_for('static', filename=best_result_image) }}" alt="Best Result" class="best-result-image">
         </div>
-
-        <button class="try-again-button" style="outline: none;">Try Again</button>
+        <form action="/"> 
+            <button class="try-again-button" style="outline: none;">Try Again</button>
+        </form>
     </div>
 
     <div class="other-matches">

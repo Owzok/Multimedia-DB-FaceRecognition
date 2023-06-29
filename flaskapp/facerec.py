@@ -4,6 +4,7 @@ import cv2                  # opencv, image processment
 import faiss                # facebook ai search similarity search
 import numpy as np          # transform image data to img
 
+# Simple Face recognition without FAISS or RTree
 def detect_faces(img):
     data = pickle.loads(open("encodings.pickle", "rb").read())
 
@@ -31,18 +32,14 @@ def detect_faces(img):
             #print("Found face: {}".format(name))
         names.append(name)
 
-        for ((top, right, bottom, left), name) in zip(boxes, names):
-            cv2.rectangle(image, (left, top), (right, bottom), (0, 255, 0), 2)
-            y = top - 15 if top - 15 > 15 else top + 15
-            cv2.putText(image, name, (left, y), cv2.FONT_HERSHEY_SIMPLEX, 0.75, (0, 255, 0), 2)
-
     f_str = "\n"
     for i in names:
         f_str += i + " "
 
     return f_str
 
-def knn(img, k):
+# Implementation of KNN with Facebook AI Similarity Search library
+def highd_knn(img, k):
     r_data = pickle.loads(open("encodings.pickle", "rb").read())
 
     data = np.array(r_data['encodings'])
@@ -65,13 +62,8 @@ def knn(img, k):
 
     D, I = index.search(d, k) 
 
-    #print(D)
-
     images = []
     f_names = []
-
-    input_encoding = encodings[0]
-    input_encoding = input_encoding.reshape(1, -1)  # Reshape to match dimensions for cosine similarity
 
     m_index = 0
     for i in I[0]:

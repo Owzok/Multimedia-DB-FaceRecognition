@@ -30,9 +30,8 @@ def generate_encodings():
     known_images = []
 
     for (i, imagePath) in enumerate(imagePaths):
-        if (i+1) % 10 == 0:
+        if (i+1) % 100 == 0:
             print("[INFO] processing image {}/{}".format(i + 1, len(imagePaths)))
-        # [INFO] processing image 3/7
         name = imagePath.split(os.path.sep)[-2]
         image = cv2.imread(imagePath)
         rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -59,4 +58,5 @@ def generate_encodings():
     f.write(pickle.dumps(data))
     f.close()
 
+# Call the function
 generate_encodings()
