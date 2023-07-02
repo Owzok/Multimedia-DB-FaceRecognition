@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, send_from_directory
 from flaskapp import app
-from flaskapp.facerec import detect_faces, faiss_knn, rindex_knn
+from flaskapp.facerec import detect_faces, faiss_knn, rindex_knn, unindexed_knn
 import os                                       # send images that aren't in static       
 import base64                                   # encode uploaded images
 import time                                     # query time
@@ -28,7 +28,7 @@ def upload_pic():
 
         start_time = time.perf_counter()
 
-        results, names, similarity_scores, best_result = rindex_knn(img, numeric_value)
+        results, names, similarity_scores, best_result = unindexed_knn(img, numeric_value)
         
         total_time = time.perf_counter() - start_time
         print(total_time)

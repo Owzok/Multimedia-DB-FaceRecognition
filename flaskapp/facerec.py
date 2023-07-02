@@ -1,9 +1,10 @@
-import face_recognition     # main algorithm
-import pickle               # deserialize data
-import cv2                  # opencv, image processment
-import faiss                # facebook ai search similarity search
-import numpy as np          # transform image data to img
-from rtree import index
+import face_recognition                      # main algorithm
+import pickle                                # deserialize data
+import cv2                                   # opencv, image processment
+import faiss                                 # facebook ai search similarity search
+import numpy as np                           # transform image data to img
+from rtree import index                      # rtree indexing capanilities
+from heapq import heappop, heapreplace, heappush, heapify # heap for knn
 
 prop = index.Property()
 prop.dimension = 128
@@ -51,6 +52,22 @@ def detect_faces(img):
 
     return f_str
 
+
+def encode_image(img):
+    '''
+    Takes: an image
+    Returns: its characteristic vector
+    '''
+    img_array = np.frombuffer(img, np.uint8)
+    image = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
+
+    rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    boxes = face_recognition.face_locations(rgb, model="hog")
+    encodings = face_recognition.face_encodings(rgb, boxes)
+
+    return encodings[0]
+
+
 # Implementation of KNN with Facebook AI Similarity Search library
 def faiss_knn(img, k):
     r_data = pickle.loads(open("encodings.pickle", "rb").read())
@@ -91,21 +108,16 @@ def faiss_knn(img, k):
 def rindex_knn(img, k):
     #process the image into the vector
 
-    img_array = np.frombuffer(img, np.uint8)
-    image = cv2.imdecode(img_array, cv2.IMREAD_COLOR)
+    encodings = encode_image(img)
 
-    rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    boxes = face_recognition.face_locations(rgb, model="hog")
-    encodings = face_recognition.face_encodings(rgb, boxes)
-
-    print("facerec.rindex_knn [DEBUG] Preprocessed Image")
+    #print("facerec.rindex_knn [DEBUG] Preprocessed Image")
     #performa similarity search. Returns a generator. 
     #generator yields something so that (name,path,vector)
 
                                 #expecta a bounding box
-    nearest_people = idx.nearest(list(encodings[0])+list(encodings[0]),k,'raw')
+    nearest_people = idx.nearest(list(encodings)+list(encodings),k,'raw')
 
-    print('facerec.rindex_knn [DEBUG] Found Images')
+    #print('facerec.rindex_knn [DEBUG] Found Images')
     # adapt the returned data into standard return format
 
     '''
@@ -129,7 +141,7 @@ def rindex_knn(img, k):
             names.append(image[0].replace("_", " "))
         i=i+1
 
-    print('facerec.rindex_knn [DEBUG] Formatted response')
+    #print('facerec.rindex_knn [DEBUG] Formatted response')
     # TODO: similarity scores on Rtree. Potentially non-implementable
     # in a sensible way
     vector = np.array([0]*len(paths))
@@ -137,3 +149,48 @@ def rindex_knn(img, k):
 
 
     return (paths,names,vector,path)
+
+def unindexed_knn(img, k):
+
+    #get image encodings
+
+    encoding = encode_image(img)
+
+    #load data generator
+
+    data = pickle.loads(open("encodings.pickle", "rb").read())
+
+    k_nearest = [] # heap of (-distance,idx)
+    heapify(k_nearest)
+
+    #do the search
+
+    i = 0
+    for vec in data['encodings']:
+        dist = np.linalg.norm(vec - encoding)
+
+        if (len(k_nearest) < k+1):
+            heappush(k_nearest,(-dist,i))
+        elif (-k_nearest[0][0] > dist):
+            heapreplace(k_nearest,(-dist,i))
+        i=i+1
+    
+    # build the return values:
+
+    results = [heappop(k_nearest) for i in range(len(k_nearest),0,-1)]
+
+    images = []
+    names  = []
+    scores = []
+
+
+    for i in results:
+        images.append('../' + data['paths'][i[1]])
+        names.append(data['names'][i[1]].replace("_", " "))
+        scores.append(-i[0])
+    
+    images.reverse()
+    names.reverse()
+    scores.reverse()
+
+    return images[1:], names[1:], np.array(scores), images[0]

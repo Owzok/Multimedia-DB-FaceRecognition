@@ -20,6 +20,6 @@ def generateRtreeFromEncodings(encodings_path: str, rtree_path: str):
     for i in range(0, len(data['paths'])):
         point = list(data['encodings'][i]) + list(data['encodings'][i])
 
-        idx.insert(i,point,obj=(data['names'][i],data['paths'][i],data['encodings'][i])) #stores a tuple of a name, path and encoding
+        idx.insert(i,point,obj=(data['names'][i],data['paths'][i])) #stores a tuple of a name, path and encoding
 
 generateRtreeFromEncodings('../encodings.pickle','../rindex')
