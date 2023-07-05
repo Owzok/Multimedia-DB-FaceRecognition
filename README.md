@@ -14,7 +14,7 @@
 ![ga](https://img.shields.io/badge/Flask-2.3.2-turquoise?style=for-the-badge&logo=)
 ![si](https://img.shields.io/badge/Academical%20Project-Yes-brightgreen?style=for-the-badge&logo=) 
 ![si](https://img.shields.io/badge/License-MIT-red?style=for-the-badge&logo=)
-![si](https://img.shields.io/badge/Repo%20Size-2.8Mb-orange?style=for-the-badge&logo=)
+![si](https://img.shields.io/badge/Repo%20Size-8.5Mb-orange?style=for-the-badge&logo=)
 <p align="center"
 
 Project for DB2 course that allows you to perform image search based on similarity using the K-Nearest Neighbors (KNN) algorithm. It provides a user-friendly interface where you can upload an image and retrieve the most similar images from a pre-populated [image database]((http://vis-www.cs.umass.edu/lfw/)).
