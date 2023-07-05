@@ -9,6 +9,7 @@ examples/
 encodings.pickle
 rindex.dat
 rindex.rtreeidx
+*.DS_Store
 
 # C extensions
 *.so
