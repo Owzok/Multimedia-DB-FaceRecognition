@@ -5,9 +5,7 @@
 import pickle
 from rtree import index
 
-
 def generateRtreeFromEncodings(encodings_path: str, rtree_path: str):
-
     prop = index.Property()
     prop.dimension = 128
     prop.idx_extension = 'rtreeidx'

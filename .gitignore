@@ -6,6 +6,9 @@ __pycache__/
 # Project
 dataset/
 examples/
+encodings.pickle
+rindex.dat
+rindex.rtreeidx
 
 # C extensions
 *.so
