@@ -8,7 +8,6 @@
     Efficient image search using high-dimensional techniques for accurate similarity retrieval.
 </p>
 
-#
 <p align="center"
 
 ![ga](https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=)
@@ -19,6 +18,10 @@
 <p align="center"
 
 Project for DB2 course that allows you to perform image search based on similarity using the K-Nearest Neighbors (KNN) algorithm. It provides a user-friendly interface where you can upload an image and retrieve the most similar images from a pre-populated [image database]((http://vis-www.cs.umass.edu/lfw/)).
+
+<center>
+<img src="./others/main.png" style="width: 600px;">
+</center>
 
 ## Features
 
@@ -89,6 +92,10 @@ Access the application by visiting http://localhost:5000 or http://127.0.0.1:500
 Upload an image using the provided interface.
 
 Enter the value of K (number of similar images to retrieve) if not, it's 5 by default.
+
+<center>
+<img src="./others/results.png" style="width: 600px;">
+</center>
 
 ### Additional Search Methods
 To implement alternative KNN search methods (such as sequential search or Rtree), follow these steps:
