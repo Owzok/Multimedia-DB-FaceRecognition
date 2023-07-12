@@ -205,3 +205,6 @@ def stop():
 def video_capture():
     return Response(detect_faces_realtime(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
+@app.route('/')
+def default_route():
+    return render_template('newindex.html')
