@@ -57,7 +57,7 @@ A continuacion graficamos todas las tecnicas:
 
 Vemos que la tecnica secuencial es semejante en tiempos a la de el Rtree. Cremos que esto se debe a la alta dimensionalidad. No creemos que el problema sea que los datos del secuencial estan en RAM, porque utilizamos un generador asociado al archivo pickle y no un dict real. 
 
-![FAISS LHS ](rtree_seq_perf.png "LSH")
+![FAISS LHS ](FAISS_perf.png "LSH")
 
 Hemos graficado los resultados del LHS de manera independiente porque no se aprecia correctamente al graficarlo con los dos anteriores, ni siquiera con ajuste logaritmico. Creemos que esta tecnica muestra una forma tan particular porque al ser una tecnica que usa hashes, el tiempo resulta *mas o menos* constante, en particular con la cantidad de datos que tenemos que aun es relativamente reducida (notar que el indice trabaja sobre 13000 vectores, no imagenes).
 
