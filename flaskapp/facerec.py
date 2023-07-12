@@ -76,7 +76,7 @@ def faiss_knn(img, k):
     data = np.array(r_data['encodings'])
     d = data.shape[1]
 
-    index = faiss.IndexFlatL2(d)
+    index = faiss.IndexLSH(d,64)
     index.add(data)
 
     img_array = np.frombuffer(img, np.uint8)
@@ -86,12 +86,12 @@ def faiss_knn(img, k):
     boxes = face_recognition.face_locations(rgb, model="hog")
     encodings = face_recognition.face_encodings(rgb, boxes)
 
-    start = time.perf_counter()
-
     d = np.array([])
 
     for encoding in encodings:
         d = np.array([encoding])
+
+    start = time.perf_counter()
 
     D, I = index.search(d, k) 
 

@@ -9,7 +9,7 @@ CS2702 – Base de Datos 2 Proyecto 3
 ### **1- Introducción**
 El logro del estudiante está enfocado en entender y aplicar los algoritmos de búsqueda y recuperación de la información basado en el contenido.  
 Este proyecto está enfocado al uso una estructura multidimensional para dar soporte a las búsqueda y recuperación eficiente de imágenes en un servicio web de reconocimiento facial.
-
+ 
 ### **2- Backend:** Servicio Web de Reconocimiento Facial
 Implementar un web service para la identificación automática de personas a partir de una colección grande de imágenes de rostros.  
 

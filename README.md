@@ -19,7 +19,7 @@
 
 Project for DB2 course that allows you to perform image search based on similarity using the K-Nearest Neighbors (KNN) algorithm. It provides a user-friendly interface where you can upload an image and retrieve the most similar images from a pre-populated [image database]((http://vis-www.cs.umass.edu/lfw/)).
 
-## Features
+## Features 
 
 - Upload an image to search for **similar images** using a 128 dimension vector per image.
 - Specify the value of **K** to control the number of similar images **to retrieve**.

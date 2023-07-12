@@ -127,7 +127,7 @@ def detect_faces_realtime():
 
                 # Mostrar la foto de la persona si se encuentra una coincidencia
                 results = []
-                testdir = "C:/Users/RyanO/VSUtec/carpeta_personas"
+                testdir = "dataset"
                 for f in os.listdir(testdir):
                     results.append(f)
 
