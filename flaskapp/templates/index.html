@@ -32,6 +32,9 @@
                     </div>
                   </fieldset>
             </form>
+            <form target="_blank" action="/camerart" method="POST">
+                <input onclick="window.location.href = '/camerart';" type="submit" value="Real time Camera"/>
+              </form>
         </div>
         <div class="right">
             <object data="{{ url_for('static', filename='image.svg') }}" type="image/svg+xml" class="cover-image">
