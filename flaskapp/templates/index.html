@@ -18,6 +18,19 @@
                 </div>            
                 <input type="file" id="file-input" name="file" style="display: none;">
                 <input type="submit" value="Upload" style="display: none;">
+                <fieldset>
+                    <legend>Please select your prefered search method:</legend>
+                    <div>
+                      <input type="radio" id="faiss" name="method" value="faiss" checked/>
+                      <label for="faiss">Faiss</label>
+                
+                      <input type="radio" id="unindexed" name="method" value="unindexed" />
+                      <label for="unindexed">Sequential</label>
+                
+                      <input type="radio" id="rtree" name="method" value="rtree" />
+                      <label for="rtree">rtree</label>
+                    </div>
+                  </fieldset>
             </form>
         </div>
         <div class="right">

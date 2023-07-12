@@ -21,17 +21,23 @@ def upload_pic():
 
         img = file.read()
 
+        method = request.form.get('method') # one of 
+                                            # 'faiss', 'unindexed', 'rtree'
+
         try:
-            numeric_value = int(request.form.get('numeric', 5))
+            numeric_value = int(request.form.get('numeric', 8))
         except ValueError:
-            numeric_value = 5
+            numeric_value = 8
 
         start_time = time.perf_counter()
-
-        results, names, similarity_scores, best_result = unindexed_knn(img, numeric_value)
-        
+        results, names, similarity_scores, best_result = (None,None,None,None)
+        if (method == 'faiss'):
+            results, names, similarity_scores, best_result = faiss_knn(img, numeric_value)
+        elif(method == 'rtree'):
+            results, names, similarity_scores, best_result = rindex_knn(img, numeric_value)
+        else:
+            results, names, similarity_scores, best_result = unindexed_knn(img, numeric_value)
         total_time = time.perf_counter() - start_time
-        print(total_time)
         zipped_data = zip(results, names, similarity_scores)
 
         img_base64 = base64.b64encode(img).decode('utf-8')

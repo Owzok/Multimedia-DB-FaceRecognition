@@ -3,11 +3,11 @@ import pickle               # deserialize data
 import cv2                  # opencv, image processment
 import faiss
 import numpy as np
-import pandas as pd
+#import pandas as pd
 import os
 
 def generate_encodings():
-    path = "./dataset/"
+    path = "../dataset/"
     imagePaths = []
     for i in os.listdir(path):
         print("[INFO] reading {} folder".format(i))
@@ -32,7 +32,8 @@ def generate_encodings():
     for (i, imagePath) in enumerate(imagePaths):
         if (i+1) % 100 == 0:
             print("[INFO] processing image {}/{}".format(i + 1, len(imagePaths)))
-        name = imagePath.split(os.path.sep)[-2]
+        # name = imagePath.split(os.path.sep)[-2] #should work, but doesnt
+        name = imagePath.split("/")[-2] #hotfix?
         image = cv2.imread(imagePath)
         rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
@@ -54,9 +55,6 @@ def generate_encodings():
     print(len(data['names']))
     print(len(data['paths']))
 
-    f = open("encodings.pickle", "wb")
+    f = open("../encodings.pickle", "wb")
     f.write(pickle.dumps(data))
     f.close()
-
-# Call the function
-generate_encodings()

@@ -5,6 +5,7 @@ import faiss                                 # facebook ai search similarity sea
 import numpy as np                           # transform image data to img
 from rtree import index                      # rtree indexing capanilities
 from heapq import heappop, heapreplace, heappush, heapify # heap for knn
+import time
 
 prop = index.Property()
 prop.dimension = 128
@@ -85,6 +86,8 @@ def faiss_knn(img, k):
     boxes = face_recognition.face_locations(rgb, model="hog")
     encodings = face_recognition.face_encodings(rgb, boxes)
 
+    start = time.perf_counter()
+
     d = np.array([])
 
     for encoding in encodings:
@@ -100,7 +103,8 @@ def faiss_knn(img, k):
         images.append("../" + r_data['paths'][i])
         f_names.append(r_data['names'][i].replace("_", " "))
 
-
+    deltatime = time.perf_counter() - start
+    print(f"faiss [INFO] search time: {deltatime}")
     # returns ([paths],[names],vector,path)
     return images[1:], f_names[1:], D[0], images[0]
 
@@ -109,6 +113,8 @@ def rindex_knn(img, k):
     #process the image into the vector
 
     encodings = encode_image(img)
+
+    start = time.perf_counter()
 
     #print("facerec.rindex_knn [DEBUG] Preprocessed Image")
     #performa similarity search. Returns a generator. 
@@ -144,17 +150,23 @@ def rindex_knn(img, k):
     #print('facerec.rindex_knn [DEBUG] Formatted response')
     # TODO: similarity scores on Rtree. Potentially non-implementable
     # in a sensible way
-    vector = np.array([0]*len(paths))
+    vector = np.array([float('nan')]*len(paths))
 
-
-
+    deltatime = time.perf_counter() - start
+    print(f"rtree [INFO] search time: {deltatime}")
     return (paths,names,vector,path)
+
+
 
 def unindexed_knn(img, k):
 
     #get image encodings
 
     encoding = encode_image(img)
+
+    
+
+    start = time.perf_counter()
 
     #load data generator
 
@@ -174,10 +186,54 @@ def unindexed_knn(img, k):
         elif (-k_nearest[0][0] > dist):
             heapreplace(k_nearest,(-dist,i))
         i=i+1
-    
+    print(f"seq [INFO] qty= {i}")
+
     # build the return values:
 
     results = [heappop(k_nearest) for i in range(len(k_nearest),0,-1)]
+
+    images = []
+    names  = []
+    scores = []
+
+
+    for i in results:
+        images.append('../' + data['paths'][i[1]])
+        names.append(data['names'][i[1]].replace("_", " "))
+        scores.append(-i[0])
+    
+    images.reverse()
+    names.reverse()
+    scores.reverse()
+
+    deltatime = time.perf_counter() - start
+    print(f"sequential [INFO] search time: {deltatime}")
+    return images[1:], names[1:], np.array(scores), images[0]
+
+def unindexed_range(img, k):
+    # where k is a range
+
+    #get image encodings
+
+    encoding = encode_image(img)
+
+    #load data generator
+
+    data = pickle.loads(open("encodings.pickle", "rb").read())
+
+    results = [] # list of deltas smaller
+
+    #do the search
+
+    i = 0
+    for vec in data['encodings']:
+        dist = np.linalg.norm(vec - encoding)
+        if (dist <= k):
+            results.append((dist,i))
+        i = i+1
+    
+    # build the return values:
+
 
     images = []
     names  = []
