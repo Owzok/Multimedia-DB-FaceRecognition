@@ -60,15 +60,17 @@ def detect_faces_realtime():
     data = pickle.loads(open("encodings.pickle", "rb").read())
     global video_capture
     # Activar la cámara para capturar fotos
+    global video_capture
     video_capture = cv2.VideoCapture(0)
 
-    global current_name, current_distance
     current_name = None  # Nombre de la imagen actualmente mostrada
     current_distance = None  # Distancia euclidiana actual
     photo_window = None  # Ventana de la foto actual
 
     start_time = time.time()
     elapsed_time = 0
+
+    show_photo = False  # Variable para controlar si se muestra la foto
 
     while elapsed_time < 10:  # Ejecutar durante 10 segundos
         # Leer un fotograma del video
@@ -148,6 +150,9 @@ def detect_faces_realtime():
                             photo_window = "Foto de " + current_name
                             cv2.imshow(photo_window, new_photo)
 
+                            # Activar la visualización de la foto
+                            show_photo = True
+
         # Mostrar el fotograma con los resultados del reconocimiento facial
         cv2.imshow('Video', frame)
 
@@ -162,24 +167,29 @@ def detect_faces_realtime():
 
         elapsed_time = time.time() - start_time
 
-    # Cerrar la ventana de la foto mostrada
-    if photo_window is not None:
-        cv2.destroyWindow(photo_window)
-
-    # Liberar los recursos y cerrar las ventanas
-    video_capture.release()
-    cv2.destroyAllWindows()
+    # Cerrar la ventana del video
+    cv2.destroyWindow('Video')
 
     # Mostrar la mejor distancia y el nombre de la foto en la consola
     if current_name is not None and current_distance is not None:
         print(f"Mejor distancia: {current_distance:.2f}")
         print(f"Nombre de la foto: {current_name}")
 
+        # Mostrar la foto obtenida después de los 10 segundos
+        photo_path = os.path.join(testdir, current_name, current_name + '_0001.jpg')  # Ruta de la foto de la persona
+        new_photo = cv2.imread(photo_path)
+        cv2.imshow("Mejor Foto", new_photo)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+
+        # Cerrar la ventana de la foto mostrada si no se presiona una tecla
+        if not show_photo:
+            cv2.destroyWindow("Mejor Foto")
 
 
 @app.route('/camerart')
 def index():
-    return render_template('newindex.html')
+    return render_template('newindex.html', variable = '0')
 
 @app.route('/start',methods=['POST'])
 def start():
