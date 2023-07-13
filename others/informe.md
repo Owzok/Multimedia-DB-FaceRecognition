@@ -30,7 +30,7 @@ Utilizamos dos librerias qde indexacion para este proyecto. A continuacion descr
 ## Rtree:
 La libreria Rtree utiliza un arbol R. Este es una estructura semejante al arbol B, pero que se compone de cuadrados, cubos e hipercubos segun la dimensionalidad de los datos a indexar sea. La idea es que cada nodo define una lista de 'bounding boxes' minimales para un conjunto de 'bounding boxes' hijas, de tal forma que se puede determinar una cota inferior a todos los puntos dentro de la 'bounding box' en cada nivel del arbol, eventualmente llegando a nodos hoja que contienen solo puntos. En la implementacion utilizada, los nodos hoja son representados como un hipercubo donde la lista de min(x,y,z...) = max(x,y,z...). Esto tiene implicancias para la busqueda, pues requiere duplicar la cantidad de parametros de busqueda antes de utilizar la API que la libreria ofrece.
 
-![Rtree ](rtree.png "Rtree")
+![Rtree ](RTREE.png "Rtree")
 
 ## Faiss:
 Estamos utilizando el indice IndexLSH de la libreria FAISS, que lo que hace (segun lo que hacen los indices de este tipo) es utilizar una funcion hash con la propiedad de que los vectores similares colisionen o se acerquen. (la idea es contraria a lo que se trata de hacer en un hash normal). De esta manera, logra reducir el problema multidimensional a una sola dimension. (Elegimos esta tecnica porque justamente muestra que pasa cuando el problema de la dimensionalidad alta se aborda).
