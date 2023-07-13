@@ -128,3 +128,6 @@ return images[1:], f_names[1:], D[0], images[0]
 ```
 
 With that in consideration, the frontend should work with the new search algorithm !
+
+# INFORME: 
+ Para el informe, ingrese a la carpeta others
